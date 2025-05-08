@@ -849,6 +849,9 @@ import { CollectionService } from './collection.service';
           </div>
         </div>
       </div>
+      
+      <!-- Modal backdrop -->
+      <div class="modal-backdrop" *ngIf="showEditModal" (click)="cancelEdit()"></div>
     </div>
   `,
   styles: [`
@@ -875,4 +878,195 @@ import { CollectionService } from './collection.service';
     
     .item-name {
       margin-left: 8px;
-      flex
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .item-actions {
+      visibility: hidden;
+    }
+    
+    .item-header:hover .item-actions {
+      visibility: visible;
+    }
+    
+    .nested-items {
+      margin-left: 24px;
+    }
+    
+    /* Request specific styles */
+    .request-item {
+      padding-left: 8px;
+    }
+    
+    .method-badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 3px;
+      min-width: 40px;
+      text-align: center;
+    }
+    
+    .method-get {
+      background-color: #61affe;
+      color: white;
+    }
+    
+    .method-post {
+      background-color: #49cc90;
+      color: white;
+    }
+    
+    .method-put {
+      background-color: #fca130;
+      color: white;
+    }
+    
+    .method-delete {
+      background-color: #f93e3e;
+      color: white;
+    }
+    
+    .method-patch {
+      background-color: #50e3c2;
+      color: white;
+    }
+    
+    .method-options, .method-head, .method-trace {
+      background-color: #9012fe;
+      color: white;
+    }
+    
+    /* Icons for request types */
+    .icon-edit:before { content: "✎"; }
+    .icon-copy:before { content: "⎘"; }
+    
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1040;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  `]
+})
+export class CollectionItemComponent {
+  @Input() item!: CollectionItem;
+  @Input() collectionId!: string;
+  @Output() selectItem = new EventEmitter<CollectionItem>();
+  
+  isSelected = false;
+  showDropdown = false;
+  showEditModal = false;
+  editingRequest: RequestItem | null = null;
+  httpMethods = Object.values(HttpMethod);
+  
+  constructor(private collectionService: CollectionService) {}
+  
+  ngOnInit(): void {
+    // Subscribe to selection changes
+    this.collectionService.selectedItem$.subscribe(selectedItem => {
+      this.isSelected = selectedItem && selectedItem.id === this.item.id;
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', this.closeDropdown.bind(this));
+  }
+  
+  ngOnDestroy(): void {
+    document.removeEventListener('click', this.closeDropdown.bind(this));
+  }
+  
+  closeDropdown(event: Event): void {
+    // Only close if the click is outside this component
+    if (!(event.target as Element).closest('.dropdown-toggle')) {
+      this.showDropdown = false;
+    }
+  }
+  
+  toggleDropdown(): void {
+    this.showDropdown = !this.showDropdown;
+  }
+  
+  toggleFolderExpansion(): void {
+    if (this.item.type === 'folder') {
+      const folderItem = this.item as FolderItem;
+      folderItem.expanded = !folderItem.expanded;
+      // Optionally save this state
+      this.collectionService.updateFolder(this.collectionId, folderItem);
+    }
+  }
+  
+  onItemSelect(): void {
+    this.selectItem.emit(this.item);
+  }
+  
+  createNewRequest(parentId: string): void {
+    this.collectionService.createRequest(this.collectionId, parentId, {
+      name: 'New Request',
+      method: HttpMethod.GET,
+      url: ''
+    });
+  }
+  
+  createNewFolder(parentId: string): void {
+    const name = prompt('Enter folder name:');
+    if (name) {
+      this.collectionService.createFolder(this.collectionId, parentId, name);
+    }
+  }
+  
+  editRequest(): void {
+    if (this.item.type === 'request') {
+      // Clone the request to prevent direct mutation
+      this.editingRequest = { ...this.item as RequestItem };
+      this.showEditModal = true;
+    }
+  }
+  
+  cancelEdit(): void {
+    this.showEditModal = false;
+    this.editingRequest = null;
+  }
+  
+  submitEdit(event: Event): void {
+    event.preventDefault();
+    if (this.editingRequest && this.editingRequest.name && this.editingRequest.url) {
+      this.collectionService.updateRequest(this.collectionId, this.editingRequest);
+      this.showEditModal = false;
+      this.editingRequest = null;
+    }
+  }
+  
+  duplicateRequest(): void {
+    if (this.item.type === 'request') {
+      const request = this.item as RequestItem;
+      const duplicate = {
+        ...request,
+        id: '', // Will be assigned by service
+        name: `${request.name} (Copy)`
+      };
+      this.collectionService.createRequest(
+        this.collectionId, 
+        request.parentId, 
+        duplicate
+      );
+    }
+  }
+  
+  deleteItem(): void {
+    if (confirm('Are you sure you want to delete this item?')) {
+      this.collectionService.deleteItem(this.collectionId, this.item.id);
+    }
+  }
+  
+  getMethodClass(request: RequestItem): string {
+    return `method-${request.method.toLowerCase()}`;
+  }
+}
