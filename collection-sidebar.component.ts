@@ -1,4 +1,24 @@
-// collection-sidebar.component.ts (complete)
+  onNewItemInputBlur(node: TreeNode, event: FocusEvent): void {
+    // Check if the related target is the method dropdown or other interactive elements
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    
+    // If the blur is caused by focusing on a dropdown or if it's caused by a click elsewhere
+    // but the name is empty, don't add the item yet
+    if (
+      (relatedTarget && relatedTarget.tagName === 'SELECT') ||
+      (!node.newItem?.name.trim())
+    ) {
+      // Don't add the item yet
+      return;
+    }
+    
+    // Otherwise, add the item
+    this.addNewItem(node);
+  }
+  
+  cancelAddingItem(node: TreeNode): void {
+    node.newItem = undefined;
+  }// collection-sidebar.component.ts (complete)
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -165,7 +185,10 @@ export class CollectionSidebarComponent {
   }
   
   addNewItem(node: TreeNode): void {
-    if (!node.newItem || !node.newItem.name.trim()) {
+    if (!node.newItem) return;
+    
+    // If name is empty, don't create a new item
+    if (!node.newItem.name.trim()) {
       node.newItem = undefined;
       return;
     }
