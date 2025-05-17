@@ -1,4 +1,4 @@
-// app.component.ts - Integration with Electron
+// app.component.ts - Full implementation with Electron integration
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CollectionSidebarComponent, TreeNode, CollectionFile, OpenAPIDocument } from './collection-sidebar.component';
