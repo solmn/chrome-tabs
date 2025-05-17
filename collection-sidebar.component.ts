@@ -150,11 +150,11 @@ export class CollectionSidebarComponent {
     // Make sure folder is expanded
     node.expanded = true;
     
-    // Create new item state
+    // Create new item state with default method for requests
     node.newItem = { 
       type, 
       name: '', 
-      ...(type === 'request' ? { method: 'GET' as const } : {})
+      method: type === 'request' ? 'GET' : undefined
     };
     
     setTimeout(() => {
