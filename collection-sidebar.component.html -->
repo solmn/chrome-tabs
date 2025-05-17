@@ -178,6 +178,7 @@
           <select *ngIf="node.newItem.type === 'request'" 
                   class="text-xs font-bold rounded px-1 py-0.5"
                   [(ngModel)]="node.newItem.method"
+                  (click)="$event.stopPropagation()"
                   [ngClass]="sidebarService.getMethodClass(node.newItem.method)">
             <option value="GET">GET</option>
             <option value="POST">POST</option>
@@ -191,7 +192,7 @@
           [(ngModel)]="node.newItem.name"
           (keydown.enter)="addNewItem(node)"
           (keydown.escape)="cancelAddingItem(node)"
-          (blur)="addNewItem(node)"
+          (blur)="onNewItemInputBlur(node, $event)"
           placeholder="{{node.newItem.type === 'folder' ? 'New Folder' : 'New Request'}}"
           #newItemInput
         >
