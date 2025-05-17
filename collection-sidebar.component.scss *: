@@ -1,0 +1,36 @@
+/* collection-sidebar.component.scss */
+.sidebar-wrapper {
+  position: relative;
+}
+
+.sidebar-container {
+  min-width: 64px;
+  max-width: 600px;
+  transition: width 0.2s ease;
+}
+
+.resize-handle {
+  cursor: col-resize;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.node-container {
+  @apply relative mb-0.5 hover:bg-gray-200 group;
+  transition: all 0.2s ease;
+}
+
+.folder-children {
+  @apply overflow-hidden;
+  animation: expandAnimation 0.3s ease-out;
+}
+
+@keyframes expandAnimation {
+  from { max-height: 0; }
+  to { max-height: 1000px; }
+}
+
+.drag-placeholder {
+  @apply border-dotted border-2 border-blue-300 bg-blue-50;
+  min-height: 20px;
+}
