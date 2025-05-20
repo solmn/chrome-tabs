@@ -38,7 +38,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6" style="min-height: calc(100vh - 200px);">
       <!-- Profiles List -->
       <div class="lg:col-span-4 xl:col-span-3">
         <div class="bg-white shadow overflow-hidden">
@@ -102,10 +102,10 @@
       </div>
 
       <!-- Details/Form Panel -->
-      <div class="lg:col-span-8 xl:col-span-9">
+      <div class="lg:col-span-8 xl:col-span-9 flex flex-col h-full">
         @if (selectedProfile && !isEditing && !isCreating) {
           <!-- Profile Details Card -->
-          <div class="bg-white shadow overflow-hidden">
+          <div class="bg-white shadow overflow-hidden flex flex-col h-full">
             <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center">
                 <span 
@@ -140,7 +140,7 @@
               </div>
             </div>
             
-            <div class="p-5">
+            <div class="p-5 overflow-y-auto">
               <div class="space-y-5">
                 <div>
                   <div class="text-sm font-medium text-slate-500 mb-1">Profile Name</div>
@@ -203,9 +203,11 @@
                   </div>
                 </div>
               </div>
-              
-              <!-- Action Buttons -->
-              <div class="mt-8 flex space-x-4">
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="p-5 mt-auto border-t border-slate-200">
+              <div class="flex space-x-4">
                 <button
                   type="button"
                   (click)="useProfile(selectedProfile.id)"
@@ -230,7 +232,7 @@
               
               <!-- Last Used Info -->
               @if (selectedProfile.lastUsed) {
-                <div class="mt-6 pt-6 border-t border-slate-200">
+                <div class="mt-4">
                   <div class="flex items-center text-sm text-slate-500">
                     <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
@@ -245,14 +247,14 @@
         
         @if (isEditing || isCreating) {
           <!-- Edit/Create Form Card -->
-          <div class="bg-white shadow overflow-hidden">
+          <div class="bg-white shadow overflow-hidden flex flex-col h-full">
             <div class="bg-blue-50 px-5 py-4 border-b border-slate-200">
               <h2 class="text-lg font-medium text-slate-900">
                 {{ isCreating ? 'Create New Profile' : 'Edit Profile' }}
               </h2>
             </div>
             
-            <div class="p-5">
+            <div class="p-5 overflow-y-auto">
               <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
                 <div class="space-y-5">
                   <div>
@@ -341,33 +343,36 @@
                       <option value="inactive">Inactive</option>
                     </select>
                   </div>
-                  
-                  <div class="flex justify-end space-x-3 pt-6 border-t border-slate-200">
-                    <button
-                      type="button"
-                      (click)="cancelEdit()"
-                      class="inline-flex justify-center py-2 px-4 border border-slate-300 shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      [disabled]="!profileForm.valid"
-                      class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {{ isCreating ? 'Create Profile' : 'Save Changes' }}
-                    </button>
-                  </div>
                 </div>
               </form>
+            </div>
+            
+            <div class="p-5 mt-auto border-t border-slate-200">
+              <div class="flex justify-end space-x-3">
+                <button
+                  type="button"
+                  (click)="cancelEdit()"
+                  class="inline-flex justify-center py-2 px-4 border border-slate-300 shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  (click)="saveProfile()"
+                  [disabled]="!profileForm.valid"
+                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {{ isCreating ? 'Create Profile' : 'Save Changes' }}
+                </button>
+              </div>
             </div>
           </div>
         }
         
         @if (!selectedProfile && !isEditing && !isCreating) {
           <!-- Empty State -->
-          <div class="bg-white shadow overflow-hidden">
-            <div class="px-5 py-6 text-center">
+          <div class="bg-white shadow overflow-hidden flex flex-col h-full">
+            <div class="px-5 py-6 text-center flex flex-col justify-center items-center h-full">
               <svg class="mx-auto h-12 w-12 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
               </svg>
