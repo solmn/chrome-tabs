@@ -1,7 +1,7 @@
 <div class="bg-slate-50 min-h-screen">
   <div class="max-w-screen-2xl mx-auto px-6 py-6">
     <!-- Page Header -->
-    <div class="bg-white shadow rounded-lg mb-6 transition duration-200 ease-in-out">
+    <div class="bg-white shadow mb-6 transition duration-200 ease-in-out">
       <div class="px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between">
         <div class="flex-1 min-w-0">
           <h1 class="text-2xl font-bold text-slate-900 tracking-tight">JWT Profiles</h1>
@@ -19,14 +19,14 @@
               type="text"
               (input)="searchProfiles($event)"
               placeholder="Search profiles..."
-              class="pl-10 block w-full rounded-md border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm h-10"
+              class="pl-10 block w-full border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 h-10"
             >
           </div>
           <!-- Create Button -->
           <button
             type="button"
             (click)="createNewProfile()"
-            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+            class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
           >
             <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
@@ -41,7 +41,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <!-- Profiles List -->
       <div class="lg:col-span-4 xl:col-span-3">
-        <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="bg-white shadow overflow-hidden">
           <div class="border-b border-slate-200 px-5 py-4">
             <h2 class="text-base font-medium text-slate-800">All Profiles</h2>
           </div>
@@ -70,7 +70,7 @@
                       <button 
                         type="button" 
                         (click)="deleteProfile(profile.id, $event)"
-                        class="inline-flex items-center p-1 border border-transparent rounded-full text-slate-400 hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                        class="inline-flex items-center p-1 border border-transparent text-slate-400 hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                       >
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                           <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -91,7 +91,7 @@
                 <button
                   type="button"
                   (click)="createNewProfile()"
-                  class="mt-4 inline-flex items-center px-3 py-1 border border-transparent rounded-md text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="mt-4 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Create New Profile
                 </button>
@@ -105,7 +105,7 @@
       <div class="lg:col-span-8 xl:col-span-9">
         @if (selectedProfile && !isEditing && !isCreating) {
           <!-- Profile Details Card -->
-          <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="bg-white shadow overflow-hidden">
             <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center">
                 <span 
@@ -120,7 +120,7 @@
                 <button
                   type="button"
                   (click)="editProfile()"
-                  class="inline-flex items-center px-3 py-1.5 border border-slate-300 rounded-md text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="inline-flex items-center px-3 py-1.5 border border-slate-300 text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <svg class="-ml-1 mr-1 h-4 w-4 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -130,7 +130,7 @@
                 <button
                   type="button"
                   (click)="deleteProfile(selectedProfile.id)"
-                  class="inline-flex items-center px-3 py-1.5 border border-red-300 rounded-md text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  class="inline-flex items-center px-3 py-1.5 border border-red-300 text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                   <svg class="-ml-1 mr-1 h-4 w-4 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -141,56 +141,75 @@
             </div>
             
             <div class="p-5">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              <div class="space-y-5">
+                <div>
+                  <div class="text-sm font-medium text-slate-500 mb-1">Profile Name</div>
+                  <div class="text-base text-slate-900 break-all bg-slate-50 p-3 border border-slate-200">
+                    {{ selectedProfile.name }}
+                  </div>
+                </div>
+                
                 <div>
                   <div class="text-sm font-medium text-slate-500 mb-1">OAuth Endpoint</div>
-                  <div class="text-base text-slate-900 break-all bg-slate-50 rounded-md p-3 border border-slate-200">
+                  <div class="text-base text-slate-900 break-all bg-slate-50 p-3 border border-slate-200">
                     {{ selectedProfile.oauthEndpoint }}
                   </div>
                 </div>
                 
                 <div>
                   <div class="text-sm font-medium text-slate-500 mb-1">JKS Path</div>
-                  <div class="text-base text-slate-900 break-all bg-slate-50 rounded-md p-3 border border-slate-200">
+                  <div class="text-base text-slate-900 break-all bg-slate-50 p-3 border border-slate-200">
                     {{ selectedProfile.jksPath }}
                   </div>
                 </div>
                 
                 <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">Scope</div>
-                  <div class="text-base text-slate-900 bg-slate-50 rounded-md p-3 border border-slate-200">
-                    {{ selectedProfile.scope || 'None' }}
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">App PIN</div>
-                  <div class="text-base text-slate-900 bg-slate-50 rounded-md p-3 border border-slate-200">
-                    {{ selectedProfile.appPin }}
-                  </div>
-                </div>
-                
-                <div>
                   <div class="text-sm font-medium text-slate-500 mb-1">Password</div>
-                  <div class="text-base text-slate-900 bg-slate-50 rounded-md p-3 border border-slate-200">
+                  <div class="text-base text-slate-900 bg-slate-50 p-3 border border-slate-200">
                     {{ selectedProfile.password }}
                   </div>
                 </div>
                 
                 <div>
+                  <div class="text-sm font-medium text-slate-500 mb-1">App PIN</div>
+                  <div class="text-base text-slate-900 bg-slate-50 p-3 border border-slate-200">
+                    {{ selectedProfile.appPin }}
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="text-sm font-medium text-slate-500 mb-1">Scope</div>
+                  <div class="text-base text-slate-900 bg-slate-50 p-3 border border-slate-200">
+                    {{ selectedProfile.scope || 'None' }}
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="text-sm font-medium text-slate-500 mb-1">Status</div>
+                  <div class="text-base text-slate-900 bg-slate-50 p-3 border border-slate-200 flex items-center">
+                    <span 
+                      class="h-2.5 w-2.5 rounded-full mr-2"
+                      [class.bg-green-400]="selectedProfile.status === 'active'"
+                      [class.bg-slate-400]="selectedProfile.status === 'inactive'"
+                    ></span>
+                    {{ selectedProfile.status === 'active' ? 'Active' : 'Inactive' }}
+                  </div>
+                </div>
+                
+                <div>
                   <div class="text-sm font-medium text-slate-500 mb-1">Created</div>
-                  <div class="text-base text-slate-900 bg-slate-50 rounded-md p-3 border border-slate-200">
+                  <div class="text-base text-slate-900 bg-slate-50 p-3 border border-slate-200">
                     {{ selectedProfile.created }}
                   </div>
                 </div>
               </div>
               
               <!-- Action Buttons -->
-              <div class="mt-8 flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0">
+              <div class="mt-8 flex space-x-4">
                 <button
                   type="button"
                   (click)="useProfile(selectedProfile.id)"
-                  class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -200,7 +219,7 @@
                 <button
                   type="button"
                   (click)="testConnection(selectedProfile.id)"
-                  class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="inline-flex justify-center items-center px-4 py-2 border border-slate-300 shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <svg class="-ml-1 mr-2 h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -226,7 +245,7 @@
         
         @if (isEditing || isCreating) {
           <!-- Edit/Create Form Card -->
-          <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="bg-white shadow overflow-hidden">
             <div class="bg-blue-50 px-5 py-4 border-b border-slate-200">
               <h2 class="text-lg font-medium text-slate-900">
                 {{ isCreating ? 'Create New Profile' : 'Edit Profile' }}
@@ -235,125 +254,106 @@
             
             <div class="p-5">
               <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-                <div class="space-y-6">
+                <div class="space-y-5">
                   <div>
-                    <label for="name" class="block text-sm font-medium text-slate-700">Profile Name</label>
-                    <div class="mt-1">
-                      <input 
-                        type="text" 
-                        id="name" 
-                        formControlName="name"
-                        class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                        placeholder="Enter profile name"
-                      >
-                    </div>
+                    <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Profile Name</label>
+                    <input 
+                      type="text" 
+                      id="name" 
+                      formControlName="name"
+                      class="block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
+                      placeholder="Enter profile name"
+                    >
                   </div>
                   
                   <div>
-                    <label for="jksPath" class="block text-sm font-medium text-slate-700">JKS Path</label>
-                    <div class="mt-1 flex rounded-md shadow-sm">
+                    <label for="jksPath" class="block text-sm font-medium text-slate-700 mb-1">JKS Path</label>
+                    <div class="flex">
                       <input 
                         type="text" 
                         id="jksPath" 
                         formControlName="jksPath"
-                        class="flex-1 min-w-0 block w-full rounded-none rounded-l-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        class="flex-1 min-w-0 block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
                         placeholder="Path to JKS file"
                       >
                       <button
                         type="button"
                         (click)="browseJksFile()"
-                        class="inline-flex items-center px-4 py-2 border border-l-0 border-slate-300 rounded-r-md bg-slate-50 text-slate-500 sm:text-sm hover:bg-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        class="inline-flex items-center px-4 border border-l-0 border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 h-10"
                       >
-                        <svg class="-ml-1 mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                        </svg>
                         Browse
                       </button>
                     </div>
                   </div>
                   
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
-                      <div class="mt-1">
-                        <input 
-                          type="password" 
-                          id="password" 
-                          formControlName="password"
-                          class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500
-                    "
-                    class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                          placeholder="JKS Password"
-                        >
-                      </div>
-                    </div>
+                  <div>
+                    <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                    <input 
+                      type="password" 
+                      id="password" 
+                      formControlName="password"
+                      class="block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
+                      placeholder="JKS Password"
+                    >
+                  </div>
                     
-                    <div>
-                      <label for="appPin" class="block text-sm font-medium text-slate-700">App PIN</label>
-                      <div class="mt-1">
-                        <input 
-                          type="password" 
-                          id="appPin" 
-                          formControlName="appPin"
-                          class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                          placeholder="App PIN (optional)"
-                        >
-                      </div>
-                    </div>
+                  <div>
+                    <label for="appPin" class="block text-sm font-medium text-slate-700 mb-1">App PIN</label>
+                    <input 
+                      type="password" 
+                      id="appPin" 
+                      formControlName="appPin"
+                      class="block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
+                      placeholder="App PIN (optional)"
+                    >
                   </div>
                   
                   <div>
-                    <label for="oauthEndpoint" class="block text-sm font-medium text-slate-700">OAuth Endpoint</label>
-                    <div class="mt-1">
-                      <input 
-                        type="text" 
-                        id="oauthEndpoint" 
-                        formControlName="oauthEndpoint"
-                        class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                        placeholder="https://example.com/oauth/token"
-                      >
-                    </div>
+                    <label for="oauthEndpoint" class="block text-sm font-medium text-slate-700 mb-1">OAuth Endpoint</label>
+                    <input 
+                      type="text" 
+                      id="oauthEndpoint" 
+                      formControlName="oauthEndpoint"
+                      class="block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
+                      placeholder="https://example.com/oauth/token"
+                    >
                   </div>
                   
                   <div>
-                    <label for="scope" class="block text-sm font-medium text-slate-700">Scope</label>
-                    <div class="mt-1">
-                      <input 
-                        type="text" 
-                        id="scope" 
-                        formControlName="scope"
-                        class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                        placeholder="openid profile email (optional)"
-                      >
-                    </div>
+                    <label for="scope" class="block text-sm font-medium text-slate-700 mb-1">Scope</label>
+                    <input 
+                      type="text" 
+                      id="scope" 
+                      formControlName="scope"
+                      class="block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
+                      placeholder="openid profile email (optional)"
+                    >
                   </div>
                   
                   <div>
-                    <label for="status" class="block text-sm font-medium text-slate-700">Status</label>
-                    <div class="mt-1">
-                      <select 
-                        id="status" 
-                        formControlName="status"
-                        class="shadow-sm block w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                      >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                      </select>
-                    </div>
+                    <label for="status" class="block text-sm font-medium text-slate-700 mb-1">Status</label>
+                    <select 
+                      id="status" 
+                      formControlName="status"
+                      class="block w-full border border-slate-300 focus:border-blue-500 focus:ring-blue-500 p-2 h-10"
+                    >
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
                   </div>
                   
                   <div class="flex justify-end space-x-3 pt-6 border-t border-slate-200">
                     <button
                       type="button"
                       (click)="cancelEdit()"
-                      class="inline-flex justify-center py-2 px-4 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      class="inline-flex justify-center py-2 px-4 border border-slate-300 shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       [disabled]="!profileForm.valid"
-                      class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {{ isCreating ? 'Create Profile' : 'Save Changes' }}
                     </button>
@@ -366,7 +366,7 @@
         
         @if (!selectedProfile && !isEditing && !isCreating) {
           <!-- Empty State -->
-          <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="bg-white shadow overflow-hidden">
             <div class="px-5 py-6 text-center">
               <svg class="mx-auto h-12 w-12 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
@@ -377,7 +377,7 @@
                 <button
                   type="button"
                   (click)="createNewProfile()"
-                  class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
