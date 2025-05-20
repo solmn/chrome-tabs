@@ -1,55 +1,52 @@
 <div class="bg-slate-50 h-screen flex flex-col overflow-hidden">
-  <div class="max-w-screen-2xl mx-auto px-6 py-4 flex-grow flex flex-col w-full">
-    <!-- Page Header - Reduced padding -->
-    <div class="bg-white shadow mb-4 transition duration-200 ease-in-out flex-shrink-0">
-      <div class="px-6 py-3 flex flex-row items-center justify-between">
-        <div class="flex-1 min-w-0">
-          <h1 class="text-xl font-bold text-slate-900 tracking-tight">JWT Profiles</h1>
-          <p class="text-sm text-slate-500">Manage configurations for JWT authentication</p>
-        </div>
-        <div class="flex space-x-3">
-          <!-- Search Box -->
-          <div class="relative flex-1 md:max-w-xs">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <input
-              type="text"
-              (input)="searchProfiles($event)"
-              placeholder="Search profiles..."
-              class="pl-10 block w-full border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 h-9 text-sm"
-            >
-          </div>
-          <!-- Create Button -->
+  <div class="max-w-screen-2xl mx-auto px-6 py-5 flex-grow flex flex-col w-full">
+    <!-- Page Header -->
+    <div class="mb-6 flex-shrink-0">
+      <h1 class="text-xl font-semibold text-gray-800">JWT Profiles</h1>
+      <p class="text-sm text-gray-500">Manage configurations for JWT authentication</p>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow h-0 overflow-hidden">
+      <!-- Profiles List -->
+      <div class="lg:col-span-4 xl:col-span-3 flex flex-col">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-medium text-gray-700">Available Profiles</h2>
           <button
             type="button"
             (click)="createNewProfile()"
-            class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+            class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800"
           >
-            <svg class="-ml-1 mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg class="h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
             New Profile
           </button>
         </div>
-      </div>
-    </div>
-
-    <!-- Main Content - Flex-grow to take available space -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow h-0 overflow-hidden">
-      <!-- Profiles List - Fixed height -->
-      <div class="lg:col-span-4 xl:col-span-3 flex flex-col overflow-hidden">
-        <div class="bg-white shadow flex flex-col h-full overflow-hidden">
-          <div class="border-b border-slate-200 px-4 py-2 flex-shrink-0">
-            <h2 class="text-base font-medium text-slate-800">All Profiles</h2>
+        
+        <!-- Search Box -->
+        <div class="relative mb-4">
+          <input
+            type="text"
+            (input)="searchProfiles($event)"
+            placeholder="Search profiles..."
+            class="w-full pl-9 pr-4 py-2 bg-white border-0 shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
+            style="height: 38px;"
+          >
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
           </div>
-          <ul class="divide-y divide-slate-200 overflow-y-auto flex-grow">
+        </div>
+        
+        <!-- Profile List -->
+        <div class="bg-white shadow-sm overflow-y-auto flex-grow">
+          <ul class="divide-y divide-gray-100">
             @for (profile of filteredProfiles; track profile.id) {
               <li>
                 <div 
-                  class="group relative px-4 py-3 cursor-pointer hover:bg-slate-50 transition duration-150 ease-in-out"
+                  class="relative px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors"
                   [class.bg-blue-50]="selectedProfileId === profile.id"
                   (click)="selectProfile(profile.id)"
                 >
@@ -57,44 +54,31 @@
                     <div class="min-w-0 flex-1">
                       <div class="flex items-center space-x-2">
                         <span 
-                          class="h-2.5 w-2.5 rounded-full"
-                          [class.bg-green-400]="profile.status === 'active'"
-                          [class.bg-slate-400]="profile.status === 'inactive'"
+                          class="h-2 w-2 rounded-full"
+                          [class.bg-green-500]="profile.status === 'active'"
+                          [class.bg-gray-400]="profile.status === 'inactive'"
                           aria-hidden="true"
                         ></span>
-                        <h3 class="text-sm font-medium text-slate-900 truncate">{{ profile.name }}</h3>
+                        <h3 class="text-sm font-medium text-gray-900 truncate">{{ profile.name }}</h3>
                       </div>
-                      <p class="mt-1 text-xs text-slate-500 truncate">{{ profile.oauthEndpoint }}</p>
+                      <p class="mt-1 text-xs text-gray-500 truncate">{{ profile.oauthEndpoint }}</p>
                     </div>
-                    <div class="flex-shrink-0 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
-                        type="button" 
-                        (click)="deleteProfile(profile.id, $event)"
-                        class="inline-flex items-center p-1 border border-transparent text-slate-400 hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                      >
-                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                    </div>
+                    <button 
+                      (click)="deleteProfile(profile.id, $event)"
+                      class="text-gray-400 hover:text-red-500 ml-2 opacity-0 group-hover:opacity-100"
+                    >
+                      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </li>
             }
             
             @if (filteredProfiles.length === 0) {
-              <li class="px-4 py-6 text-center">
-                <svg class="mx-auto h-8 w-8 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <p class="mt-2 text-sm text-slate-500">No profiles found</p>
-                <button
-                  type="button"
-                  (click)="createNewProfile()"
-                  class="mt-4 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  Create New Profile
-                </button>
+              <li class="px-4 py-8 text-center">
+                <p class="text-sm text-gray-500">No profiles found</p>
               </li>
             }
           </ul>
@@ -105,110 +89,106 @@
       <div class="lg:col-span-8 xl:col-span-9 flex flex-col overflow-hidden">
         @if (selectedProfile && !isEditing && !isCreating) {
           <!-- Profile Details Card -->
-          <div class="bg-white shadow flex flex-col h-full overflow-hidden">
-            <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
+          <div class="bg-white shadow-sm flex flex-col h-full overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
               <div class="flex items-center">
                 <span 
                   class="h-2.5 w-2.5 rounded-full mr-2"
-                  [class.bg-green-400]="selectedProfile.status === 'active'"
-                  [class.bg-slate-400]="selectedProfile.status === 'inactive'"
+                  [class.bg-green-500]="selectedProfile.status === 'active'"
+                  [class.bg-gray-400]="selectedProfile.status === 'inactive'"
                   aria-hidden="true"
                 ></span>
-                <h2 class="text-base font-medium text-slate-900">{{ selectedProfile.name }}</h2>
+                <h2 class="text-lg font-medium text-gray-900">{{ selectedProfile.name }}</h2>
               </div>
-              <div class="flex space-x-2">
+              <div class="flex space-x-3">
                 <button
                   type="button"
                   (click)="editProfile()"
-                  class="inline-flex items-center px-2 py-1 border border-slate-300 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="text-blue-600 hover:text-blue-800"
                 >
-                  <svg class="-ml-0.5 mr-1 h-3 w-3 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                  </svg>
                   Edit
                 </button>
                 <button
                   type="button"
                   (click)="deleteProfile(selectedProfile.id)"
-                  class="inline-flex items-center px-2 py-1 border border-red-300 text-xs font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  class="text-red-600 hover:text-red-800"
                 >
-                  <svg class="-ml-0.5 mr-1 h-3 w-3 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
                   Delete
                 </button>
               </div>
             </div>
             
-            <div class="overflow-y-auto flex-grow p-4">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="overflow-y-auto flex-grow p-6">
+              <div class="space-y-6">
                 <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">Profile Name</div>
-                  <div class="text-sm text-slate-900 break-all bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.name }}
+                  <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Basic Information</div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">Profile Name</div>
+                      <div class="mt-1 text-sm text-gray-900">{{ selectedProfile.name }}</div>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">Status</div>
+                      <div class="mt-1 text-sm text-gray-900 flex items-center">
+                        <span 
+                          class="h-2 w-2 rounded-full mr-2"
+                          [class.bg-green-500]="selectedProfile.status === 'active'"
+                          [class.bg-gray-400]="selectedProfile.status === 'inactive'"
+                        ></span>
+                        {{ selectedProfile.status === 'active' ? 'Active' : 'Inactive' }}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
                 <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">Status</div>
-                  <div class="text-sm text-slate-900 bg-slate-50 p-2 border border-slate-200 flex items-center">
-                    <span 
-                      class="h-2 w-2 rounded-full mr-2"
-                      [class.bg-green-400]="selectedProfile.status === 'active'"
-                      [class.bg-slate-400]="selectedProfile.status === 'inactive'"
-                    ></span>
-                    {{ selectedProfile.status === 'active' ? 'Active' : 'Inactive' }}
+                  <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Connection Details</div>
+                  <div class="space-y-4">
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">OAuth Endpoint</div>
+                      <div class="mt-1 text-sm text-gray-900 break-all">{{ selectedProfile.oauthEndpoint }}</div>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">JKS Path</div>
+                      <div class="mt-1 text-sm text-gray-900 break-all">{{ selectedProfile.jksPath }}</div>
+                    </div>
                   </div>
                 </div>
                 
                 <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">OAuth Endpoint</div>
-                  <div class="text-sm text-slate-900 break-all bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.oauthEndpoint }}
+                  <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Security</div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">Password</div>
+                      <div class="mt-1 text-sm text-gray-900">{{ selectedProfile.password }}</div>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">App PIN</div>
+                      <div class="mt-1 text-sm text-gray-900">{{ selectedProfile.appPin }}</div>
+                    </div>
                   </div>
                 </div>
                 
                 <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">JKS Path</div>
-                  <div class="text-sm text-slate-900 break-all bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.jksPath }}
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">Password</div>
-                  <div class="text-sm text-slate-900 bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.password }}
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">App PIN</div>
-                  <div class="text-sm text-slate-900 bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.appPin }}
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">Scope</div>
-                  <div class="text-sm text-slate-900 bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.scope || 'None' }}
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="text-sm font-medium text-slate-500 mb-1">Created</div>
-                  <div class="text-sm text-slate-900 bg-slate-50 p-2 border border-slate-200">
-                    {{ selectedProfile.created }}
+                  <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Additional Information</div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">Scope</div>
+                      <div class="mt-1 text-sm text-gray-900">{{ selectedProfile.scope || 'None' }}</div>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-700">Created</div>
+                      <div class="mt-1 text-sm text-gray-900">{{ selectedProfile.created }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
               
               <!-- Last Used Info -->
               @if (selectedProfile.lastUsed) {
-                <div class="mt-4">
-                  <div class="flex items-center text-xs text-slate-500">
-                    <svg class="flex-shrink-0 mr-1 h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <div class="mt-6 pt-6 border-t border-gray-100">
+                  <div class="flex items-center text-xs text-gray-500">
+                    <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                     </svg>
                     Last used: {{ selectedProfile.lastUsed }}
@@ -218,22 +198,19 @@
             </div>
             
             <!-- Action Buttons -->
-            <div class="p-4 border-t border-slate-200 flex-shrink-0">
+            <div class="p-6 border-t border-gray-100">
               <div class="flex space-x-3">
                 <button
                   type="button"
                   (click)="useProfile(selectedProfile.id)"
-                  class="inline-flex justify-center items-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
                 >
-                  <svg class="-ml-1 mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                  </svg>
                   Use Profile
                 </button>
                 <button
                   type="button"
                   (click)="testConnection(selectedProfile.id)"
-                  class="inline-flex justify-center items-center px-3 py-1.5 border border-slate-300 shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="inline-flex items-center px-4 py-2 bg-white text-gray-700 text-sm border border-gray-300 rounded hover:bg-gray-50"
                 >
                   Test Connection
                 </button>
@@ -244,43 +221,44 @@
         
         @if (isEditing || isCreating) {
           <!-- Edit/Create Form Card -->
-          <div class="bg-white shadow flex flex-col h-full overflow-hidden">
-            <div class="bg-blue-50 px-4 py-3 border-b border-slate-200 flex-shrink-0">
-              <h2 class="text-base font-medium text-slate-900">
+          <div class="bg-white shadow-sm flex flex-col h-full overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100">
+              <h2 class="text-lg font-medium text-gray-900">
                 {{ isCreating ? 'Create New Profile' : 'Edit Profile' }}
               </h2>
             </div>
             
-            <div class="flex-grow overflow-y-auto p-4">
-              <form [formGroup]="profileForm" class="space-y-4">
-                <!-- Fancy Form Fields -->
+            <div class="flex-grow overflow-y-auto p-6">
+              <form [formGroup]="profileForm" class="space-y-5">
+                <!-- Simple & Fancy Form Fields -->
                 <div>
-                  <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Profile Name</label>
-                  <div class="flex items-center bg-white border-t border-b border-slate-300 h-9">
-                    <input 
-                      type="text" 
-                      id="name" 
-                      formControlName="name"
-                      class="flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none"
-                      placeholder="Enter profile name"
-                    >
-                  </div>
+                  <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Profile Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    formControlName="name"
+                    class="w-full px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors"
+                    style="height: 36px;"
+                    placeholder="Enter profile name"
+                  >
                 </div>
                 
                 <div>
-                  <label for="jksPath" class="block text-sm font-medium text-slate-700 mb-1">JKS Path</label>
-                  <div class="flex items-center bg-white border-t border-b border-slate-300">
+                  <label for="jksPath" class="block text-sm font-medium text-gray-700 mb-1">JKS Path</label>
+                  <div class="flex">
                     <input 
                       type="text" 
                       id="jksPath" 
                       formControlName="jksPath"
-                      class="flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none"
+                      class="flex-1 px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors"
+                      style="height: 36px;"
                       placeholder="Path to JKS file"
                     >
                     <button
                       type="button"
                       (click)="browseJksFile()"
-                      class="h-9 px-4 bg-slate-50 border-l border-slate-300 text-slate-700 hover:bg-slate-100 focus:outline-none"
+                      class="ml-2 px-4 text-sm text-blue-600 hover:text-blue-800 border border-blue-200 rounded"
+                      style="height: 36px;"
                     >
                       Browse
                     </button>
@@ -288,69 +266,66 @@
                 </div>
                 
                 <div>
-                  <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-                  <div class="flex items-center bg-white border-t border-b border-slate-300 h-9">
-                    <input 
-                      type="password" 
-                      id="password" 
-                      formControlName="password"
-                      class="flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none"
-                      placeholder="JKS Password"
-                    >
-                  </div>
+                  <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    formControlName="password"
+                    class="w-full px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors"
+                    style="height: 36px;"
+                    placeholder="JKS Password"
+                  >
                 </div>
                   
                 <div>
-                  <label for="appPin" class="block text-sm font-medium text-slate-700 mb-1">App PIN</label>
-                  <div class="flex items-center bg-white border-t border-b border-slate-300 h-9">
-                    <input 
-                      type="password" 
-                      id="appPin" 
-                      formControlName="appPin"
-                      class="flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none"
-                      placeholder="App PIN (optional)"
-                    >
-                  </div>
+                  <label for="appPin" class="block text-sm font-medium text-gray-700 mb-1">App PIN</label>
+                  <input 
+                    type="password" 
+                    id="appPin" 
+                    formControlName="appPin"
+                    class="w-full px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors"
+                    style="height: 36px;"
+                    placeholder="App PIN (optional)"
+                  >
                 </div>
                 
                 <div>
-                  <label for="oauthEndpoint" class="block text-sm font-medium text-slate-700 mb-1">OAuth Endpoint</label>
-                  <div class="flex items-center bg-white border-t border-b border-slate-300 h-9">
-                    <input 
-                      type="text" 
-                      id="oauthEndpoint" 
-                      formControlName="oauthEndpoint"
-                      class="flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none"
-                      placeholder="https://example.com/oauth/token"
-                    >
-                  </div>
+                  <label for="oauthEndpoint" class="block text-sm font-medium text-gray-700 mb-1">OAuth Endpoint</label>
+                  <input 
+                    type="text" 
+                    id="oauthEndpoint" 
+                    formControlName="oauthEndpoint"
+                    class="w-full px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors"
+                    style="height: 36px;"
+                    placeholder="https://example.com/oauth/token"
+                  >
                 </div>
                 
                 <div>
-                  <label for="scope" class="block text-sm font-medium text-slate-700 mb-1">Scope</label>
-                  <div class="flex items-center bg-white border-t border-b border-slate-300 h-9">
-                    <input 
-                      type="text" 
-                      id="scope" 
-                      formControlName="scope"
-                      class="flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none"
-                      placeholder="openid profile email (optional)"
-                    >
-                  </div>
+                  <label for="scope" class="block text-sm font-medium text-gray-700 mb-1">Scope</label>
+                  <input 
+                    type="text" 
+                    id="scope" 
+                    formControlName="scope"
+                    class="w-full px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors"
+                    style="height: 36px;"
+                    placeholder="openid profile email (optional)"
+                  >
                 </div>
                 
                 <div>
-                  <label for="status" class="block text-sm font-medium text-slate-700 mb-1">Status</label>
-                  <div class="relative flex items-center bg-white border-t border-b border-slate-300 h-9">
+                  <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <div class="relative">
                     <select 
                       id="status" 
                       formControlName="status"
-                      class="appearance-none flex-1 px-4 py-2 text-base font-normal font-['Segoe UI','Tahoma','Geneva','Verdana',sans-serif] h-9 focus:outline-none focus:border-blue-500 focus:ring-0 border-none bg-transparent"
+                      class="w-full px-3 text-base font-['Segoe UI',Tahoma,Geneva,Verdana,sans-serif] border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:ring-0 bg-gray-50 focus:bg-white transition-colors appearance-none"
+                      style="height: 36px;"
                     >
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
                       <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                       </svg>
@@ -360,12 +335,12 @@
               </form>
             </div>
             
-            <div class="p-4 border-t border-slate-200 flex-shrink-0">
+            <div class="p-6 border-t border-gray-100">
               <div class="flex justify-end space-x-3">
                 <button
                   type="button"
                   (click)="cancelEdit()"
-                  class="inline-flex justify-center py-1.5 px-3 border border-slate-300 shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
                 >
                   Cancel
                 </button>
@@ -373,7 +348,7 @@
                   type="button"
                   (click)="saveProfile()"
                   [disabled]="!profileForm.valid"
-                  class="inline-flex justify-center py-1.5 px-3 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  class="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {{ isCreating ? 'Create Profile' : 'Save Changes' }}
                 </button>
@@ -384,22 +359,19 @@
         
         @if (!selectedProfile && !isEditing && !isCreating) {
           <!-- Empty State -->
-          <div class="bg-white shadow flex flex-col h-full overflow-hidden">
-            <div class="flex flex-col justify-center items-center h-full p-4">
-              <svg class="h-12 w-12 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <div class="bg-white shadow-sm flex flex-col h-full overflow-hidden">
+            <div class="flex flex-col justify-center items-center h-full p-6">
+              <svg class="h-12 w-12 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
               </svg>
-              <h3 class="mt-2 text-lg font-medium text-slate-900">No Profile Selected</h3>
-              <p class="mt-1 text-sm text-slate-500">Select a profile from the list or create a new one to get started.</p>
+              <h3 class="mt-2 text-lg font-medium text-gray-900">No Profile Selected</h3>
+              <p class="mt-1 text-sm text-gray-500">Select a profile from the list or create a new one to get started.</p>
               <div class="mt-4">
                 <button
                   type="button"
                   (click)="createNewProfile()"
-                  class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  class="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
                 >
-                  <svg class="-ml-1 mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                  </svg>
                   Create New Profile
                 </button>
               </div>
