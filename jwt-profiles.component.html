@@ -1,0 +1,246 @@
+<!-- jwt-profiles.component.html -->
+<div class="p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">JWT Profiles</h1>
+      <button
+        (click)="createNewProfile()"
+        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center"
+      >
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        New Profile
+      </button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Profiles List Card -->
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-4 bg-gray-50 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800">Available Profiles</h2>
+        </div>
+        
+        <div class="divide-y divide-gray-200 max-h-[calc(100vh-250px)] overflow-y-auto">
+          @for (profile of profiles; track profile.id) {
+            <div 
+              (click)="selectProfile(profile.id)"
+              class="p-4 hover:bg-gray-50 cursor-pointer relative transition-colors"
+              [ngClass]="{'bg-blue-50': selectedProfileId === profile.id}"
+            >
+              <div class="pr-8"> <!-- Space for delete button -->
+                <div class="font-medium text-gray-900">{{ profile.name }}</div>
+                <div class="text-sm text-gray-500 mt-1 truncate">{{ profile.oauthEndpoint }}</div>
+              </div>
+              
+              <button 
+                (click)="deleteProfile(profile.id, $event)" 
+                class="absolute top-4 right-4 text-gray-400 hover:text-red-500"
+                title="Delete profile"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          }
+          
+          @if (profiles.length === 0) {
+            <div class="p-8 text-center text-gray-500">
+              <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <p class="mt-2">No profiles found</p>
+              <button
+                (click)="createNewProfile()"
+                class="mt-4 inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              >
+                Create one now
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+      
+      <!-- Details/Form Panel (spans 2 columns) -->
+      <div class="md:col-span-2 bg-white shadow-md rounded-lg overflow-hidden">
+        <!-- No profile selected or empty state -->
+        @if (!selectedProfile && !isCreating) {
+          <div class="h-full flex items-center justify-center p-8">
+            <div class="text-center max-w-md">
+              <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 class="text-lg font-medium text-gray-900 mb-1">No Profile Selected</h3>
+              <p class="text-gray-500 mb-4">Select a profile from the list or create a new one to view details</p>
+              <button
+                (click)="createNewProfile()"
+                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              >
+                Create New Profile
+              </button>
+            </div>
+          </div>
+        }
+        
+        <!-- Profile Details View -->
+        @if (selectedProfile && !isEditing && !isCreating) {
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-5 pb-4 border-b border-gray-200">
+              <h2 class="text-xl font-semibold text-gray-800">Profile Details</h2>
+              <button 
+                (click)="editProfile()"
+                class="bg-blue-50 text-blue-700 px-4 py-2 rounded-md text-sm hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Edit Profile
+              </button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
+              <div>
+                <div class="text-sm font-medium text-gray-500">Profile Name</div>
+                <div class="mt-1 text-lg text-gray-900">{{ selectedProfile.name }}</div>
+              </div>
+              
+              <div>
+                <div class="text-sm font-medium text-gray-500">App PIN</div>
+                <div class="mt-1 text-lg text-gray-900">{{ selectedProfile.appPin }}</div>
+              </div>
+              
+              <div class="col-span-2">
+                <div class="text-sm font-medium text-gray-500">JKS Path</div>
+                <div class="mt-1 text-lg text-gray-900 break-all">{{ selectedProfile.jksPath }}</div>
+              </div>
+              
+              <div>
+                <div class="text-sm font-medium text-gray-500">Password</div>
+                <div class="mt-1 text-lg text-gray-900">{{ selectedProfile.password }}</div>
+              </div>
+              
+              <div class="col-span-2">
+                <div class="text-sm font-medium text-gray-500">OAuth Endpoint</div>
+                <div class="mt-1 text-lg text-gray-900 break-all">{{ selectedProfile.oauthEndpoint }}</div>
+              </div>
+              
+              <div class="col-span-2">
+                <div class="text-sm font-medium text-gray-500">Scope</div>
+                <div class="mt-1 text-lg text-gray-900">{{ selectedProfile.scope }}</div>
+              </div>
+            </div>
+          </div>
+        }
+        
+        <!-- Edit/Create Form -->
+        @if (isEditing || isCreating) {
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-5 pb-4 border-b border-gray-200">
+              <h2 class="text-xl font-semibold text-gray-800">
+                {{ isCreating ? 'Create New Profile' : 'Edit Profile' }}
+              </h2>
+            </div>
+            
+            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                <div class="sm:col-span-2">
+                  <label for="name" class="block text-sm font-medium text-gray-700">Profile Name</label>
+                  <div class="mt-1">
+                    <input 
+                      type="text" 
+                      id="name" 
+                      formControlName="name"
+                      class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                  </div>
+                </div>
+                
+                <div class="sm:col-span-2">
+                  <label for="jksPath" class="block text-sm font-medium text-gray-700">JKS Path</label>
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input 
+                      type="text" 
+                      id="jksPath" 
+                      formControlName="jksPath"
+                      class="focus:ring-blue-500 focus:border-blue-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
+                    >
+                    <button
+                      type="button"
+                      (click)="browseJksFile()"
+                      class="inline-flex items-center px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-500 sm:text-sm hover:bg-gray-100"
+                    >
+                      Browse
+                    </button>
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                  <div class="mt-1">
+                    <input 
+                      type="password" 
+                      id="password" 
+                      formControlName="password"
+                      class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="appPin" class="block text-sm font-medium text-gray-700">App PIN</label>
+                  <div class="mt-1">
+                    <input 
+                      type="password" 
+                      id="appPin" 
+                      formControlName="appPin"
+                      class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                  </div>
+                </div>
+                
+                <div class="sm:col-span-2">
+                  <label for="oauthEndpoint" class="block text-sm font-medium text-gray-700">OAuth Endpoint</label>
+                  <div class="mt-1">
+                    <input 
+                      type="text" 
+                      id="oauthEndpoint" 
+                      formControlName="oauthEndpoint"
+                      class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                  </div>
+                </div>
+                
+                <div class="sm:col-span-2">
+                  <label for="scope" class="block text-sm font-medium text-gray-700">Scope</label>
+                  <div class="mt-1">
+                    <input 
+                      type="text" 
+                      id="scope" 
+                      formControlName="scope"
+                      class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    >
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  (click)="cancelEdit()"
+                  class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="!profileForm.valid"
+                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
