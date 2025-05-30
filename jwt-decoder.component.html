@@ -1,0 +1,133 @@
+<div class="h-full flex flex-col bg-gray-50">
+  <div class="bg-white border-b border-gray-200 p-6">
+    <h3 class="text-xl font-semibold text-gray-900 mb-1">JWT Decoder</h3>
+    <p class="text-sm text-gray-600">Decode and inspect JWT tokens</p>
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <div class="p-6">
+      <div class="max-w-6xl mx-auto space-y-6">
+        
+        <!-- Token Input Section -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-lg font-medium text-gray-900">JWT Token Input</h4>
+            <button (click)="useSampleToken()"
+                    class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+              Use Sample Token
+            </button>
+          </div>
+          
+          <textarea [(ngModel)]="tokenInput"
+                    (ngModelChange)="onTokenInputChange($event)"
+                    placeholder="Paste your JWT token here..."
+                    class="w-full p-4 border border-gray-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50"
+                    rows="4">
+          </textarea>
+          
+          <div *ngIf="tokenInput" class="flex justify-between items-center mt-3 text-sm">
+            <span class="text-gray-500">{{ tokenInput.length }} characters</span>
+            <button (click)="clearToken()"
+                    class="text-red-600 hover:text-red-700 font-medium">
+              Clear Token
+            </button>
+          </div>
+        </div>
+
+        <!-- Error Display -->
+        <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div class="flex items-center gap-2 text-red-800">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="font-medium">Invalid Token</span>
+          </div>
+          <p class="text-red-700 mt-1">{{ error }}</p>
+        </div>
+
+        <!-- Decoded Token Display -->
+        <div *ngIf="decodedToken" class="space-y-6">
+          <!-- Token Status -->
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h4 class="text-lg font-medium text-gray-900 mb-4">Token Status</h4>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div class="flex items-center gap-2">
+                <svg [class.text-green-600]="decodedToken.isValid"
+                     [class.text-red-600]="!decodedToken.isValid"
+                     class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="decodedToken.isValid" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path *ngIf="!decodedToken.isValid" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span [class.text-green-600]="decodedToken.isValid"
+                      [class.text-red-600]="!decodedToken.isValid"
+                      class="font-medium">
+                  {{ decodedToken.isValid ? 'Valid' : 'Invalid/Expired' }}
+                </span>
+              </div>
+              <div *ngIf="decodedToken.issuedAt">
+                <span class="block text-gray-500 text-sm">Issued At</span>
+                <span class="font-medium">{{ decodedToken.issuedAt | date:'short' }}</span>
+              </div>
+              <div *ngIf="decodedToken.expiresAt">
+                <span class="block text-gray-500 text-sm">Expires At</span>
+                <span class="font-medium">{{ decodedToken.expiresAt | date:'short' }}</span>
+              </div>
+              <div>
+                <span class="block text-gray-500 text-sm">Algorithm</span>
+                <span class="font-medium">{{ decodedToken.header?.alg || 'Unknown' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Header -->
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-medium text-gray-900">Header</h4>
+              <button (click)="copyToClipboard(getFormattedJson(decodedToken.header))"
+                      class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                Copy Header
+              </button>
+            </div>
+            <pre class="bg-gray-50 p-4 rounded-lg text-sm font-mono overflow-x-auto border">{{ getFormattedJson(decodedToken.header) }}</pre>
+          </div>
+
+          <!-- Payload -->
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-medium text-gray-900">Payload</h4>
+              <button (click)="copyToClipboard(getFormattedJson(decodedToken.payload))"
+                      class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                Copy Payload
+              </button>
+            </div>
+            <pre class="bg-gray-50 p-4 rounded-lg text-sm font-mono overflow-x-auto border">{{ getFormattedJson(decodedToken.payload) }}</pre>
+          </div>
+
+          <!-- Signature -->
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="text-lg font-medium text-gray-900">Signature</h4>
+              <button (click)="copyToClipboard(decodedToken.signature)"
+                      class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                Copy Signature
+              </button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg border">
+              <span class="text-sm font-mono break-all">{{ decodedToken.signature }}</span>
+            </div>
+            <p class="text-sm text-gray-600 mt-3 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Signature verification requires the original signing key
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
